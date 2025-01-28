@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import ClimateDataAPIView, HomePageView
+from .views import HomePageView, ClimatePageView, AboutPageView
 
 urlpatterns = [
-    path("", HomePageView, name="home"),  # Route for the home page
-    path("api/data/", ClimateDataAPIView.as_view(), name="climate-data-api"),
+    path("", HomePageView, name="home"),
+    path("climate/", ClimatePageView, name="climate"),
+    path("about/", AboutPageView, name="about"),
 ]
