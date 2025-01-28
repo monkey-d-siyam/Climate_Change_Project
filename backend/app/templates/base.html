@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}NASA-Styled Climate Website{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<header>
+  <h1>Climate Explorer</h1>
+</header>
+<nav class="navbar">
+  <a href="/">Home</a>
+  <a href="/climate/">Climate Data</a>
+  <a href="/about/">About</a>
+</nav>
+{% block content %}
+{% endblock %}
+<footer>
+  <p>&copy; 2025 - Climate Explorer | Inspired by NASA</p>
+</footer>
+</body>
+</html>

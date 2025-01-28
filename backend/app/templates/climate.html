@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Climate Data{% endblock %}
+
+{% block content %}
+<section class="content">
+  <h2>Climate Data Visualization</h2>
+  <canvas id="climateChart"></canvas>
+</section>
+<script src="{% static 'js/charts.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}

@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif; /* Clean, modern typography */
+    background-color: #0b132b; /* Dark space background */
+    color: #fff; /* White colored text */
+}
+
+a {
+    color: #007bff; /* NASA-themed blue links */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffa500; /* Orange hover effect */
+}
+
+/* Header and Navbar */
+header {
+    background-color: #1c2541; /* Dark gray with a slight blue tint */
+    padding: 10px 0;
+    border-bottom: 2px solid #3a506b;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px 0;
+    background-color: #3a506b; /* Slightly lighter gray for navbar */
+}
+
+.navbar a {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: #ffa500;
+}
+
+/* Homepage Hero Section */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background-image: url('{% static "images/earth-space.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Footer */
+footer {
+    background-color: #1c2541;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+/*
+ Additional rules (responsive design, etc.) can be added later
+*/
