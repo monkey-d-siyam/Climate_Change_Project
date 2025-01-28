@@ -1,13 +1,16 @@
 from django.shortcuts import render
 
 
-def HomePageView(request):
-    return render(request, "index.html")
+# Home Page
+def index(request):
+    return render(request, 'index.html')
 
 
-def ClimatePageView(request):
-    return render(request, "climate.html")
+# About Page
+def about(request):
+    return render(request, 'about.html')
 
 
-def AboutPageView(request):
-    return render(request, "about.html")
+# Climate Data Page
+def climate_data(request):
+    return render(request, 'climate_data.html')

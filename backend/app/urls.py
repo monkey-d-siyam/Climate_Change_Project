@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import HomePageView, ClimatePageView, AboutPageView
+from . import views
 
 urlpatterns = [
-    path("", HomePageView, name="home"),
-    path("climate/", ClimatePageView, name="climate"),
-    path("about/", AboutPageView, name="about"),
+    path('', views.index, name='index'),  # Home page
+    path('about/', views.about, name='about'),  # About page
+    path('climate-data/', views.climate_data, name='climate_data'),  # Climate Data page
 ]

@@ -4,9 +4,10 @@
 
 {% block content %}
 <section class="content">
-  <h2>Climate Data Visualization</h2>
-  <canvas id="climateChart"></canvas>
+    <h2>Climate Data Visualization</h2>
+    <canvas id="climateChart"></canvas>
 </section>
-<script src="{% static 'js/charts.js' %}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/charts.js' %}"></script>
 {% endblock %}
