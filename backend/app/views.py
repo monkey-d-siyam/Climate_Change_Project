@@ -68,3 +68,26 @@ def fetch_temperature_data(request):
     except requests.exceptions.RequestException as error:
         # Handle network or request-related issues
         return JsonResponse({'status': 'error', 'message': f"API request failed: {str(error)}"})
+
+from django.shortcuts import render
+from .models import EducationalResource
+
+
+def educational_resources(request):
+    # Get query parameters for search and category filtering
+    query = request.GET.get('q', '')
+    category_filter = request.GET.get('category', '')
+
+    # Filter resources by query and category
+    resources = EducationalResource.objects.all()
+    if query:
+        resources = resources.filter(title__icontains=query)
+    if category_filter:
+        resources = resources.filter(category=category_filter)
+
+    # Pass data to the template
+    return render(request, 'educational_resources.html', {
+        'resources': resources,
+        'query': query,
+        'category_filter': category_filter,
+    })

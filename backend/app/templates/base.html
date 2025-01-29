@@ -1,48 +1,46 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}NASA-Styled Climate Website{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="{% static 'js/charts.js' %}" defer></script> <!-- Current Chart.js implementation -->
-  <script src="{% static 'js/climate.js' %}" defer></script> <!-- New climate feature JS -->
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Climate Explorer{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-<header>
-  <h1>Climate Explorer</h1>
-</header>
-<nav class="navbar">
-  <a href="/">Home</a>
-  <a href="/climate/">Climate Data</a>
-  <a href="/carbon-calculator/">Carbon Calculator</a>
-  <a href="/about/">About</a>
-</nav>
-{% block content %}
-<section id="real-time-climate" style="text-align: center; padding: 40px; background-color: #1c2541; color: white;">
-    <h2>Real-Time Climate Data</h2>
-    <p>Explore real-time temperature and climate data from cities across the globe!</p>
+<body style="background: url('{% static "images/nasa_bg.jpg" %}') no-repeat center center fixed; background-size: cover; color: white;">
+    <!-- Header Section -->
+    <header style="background-color: rgba(28, 37, 65, 0.9); color: white; padding: 10px 20px;">
+        <h1 style="margin: 0; padding: 0;">Climate Explorer</h1>
 
-    <!-- Dropdown & Button -->
-    <div style="margin: 20px;">
-        <label for="city-input" style="color: white;">Enter City:</label>
-        <input type="text" id="city-input" placeholder="e.g., New York" />
-        <button id="fetch-data-btn" style="background: #007bff; color: white; padding: 8px 16px; border-radius: 5px; border: none; cursor: pointer;">Get Data</button>
-    </div>
+        <!-- Navigation Bar -->
+        <nav style="margin-top: 10px;">
+            <ul style="list-style: none; padding: 0; display: flex; gap: 20px; justify-content: center;">
+                <li style="display: inline;">
+                    <a href="/" style="text-decoration: none; color: white;">Home</a>
+                </li>
+                <li style="display: inline;">
+                    <a href="/climate/" style="text-decoration: none; color: white;">Climate Data</a>
+                </li>
+                <li style="display: inline;">
+                    <a href="/about/" style="text-decoration: none; color: white;">About</a>
+                </li>
+                <li style="display: inline;">
+                    <a href="/educational-resources/" style="text-decoration: none; color: white;">Educational Resources</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- Display Temperature -->
-    <div id="climate-display" style="margin-top: 20px;">
-        <canvas id="temperatureChart" style="max-width: 800px; margin: auto;"></canvas>
-    </div>
+    <!-- Content Section -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-    <!-- Error/Status Messages -->
-    <p id="error-message" style="color: red; margin-top: 20px; display: none;"></p>
-</section>
-{% endblock %}
-<footer>
-  <p>&copy; 2025 - Climate Explorer | Inspired by NASA</p>
-</footer>
+    <!-- Footer -->
+    <footer style="background-color: rgba(28, 37, 65, 0.9); color: white; text-align: center; padding: 10px; margin-top: 20px;">
+        <p>&copy; 2025 Climate Explorer. All rights reserved.</p>
+    </footer>
 </body>
 </html>

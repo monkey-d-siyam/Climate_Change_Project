@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Educational Resources{% endblock %}
+
+{% block content %}
+<section style="background-color: #1c2541; padding: 40px; color: white; text-align: center;">
+    <h1>Educational Resources</h1>
+    <p>Explore well-researched articles, infographics, and videos about climate change.</p>
+
+    <!-- Search and Filter Section -->
+    <div style="margin-bottom: 20px;">
+        <form method="get" action="{% url 'educational_resources' %}" style="display: flex; justify-content: center; gap: 10px;">
+            <!-- Search Input -->
+            <input type="text" name="q" value="{{ query }}" placeholder="Search resources..."
+                style="padding: 10px; width: 300px; border-radius: 5px; border: 1px solid #ccc;">
+
+            <!-- Category Filter -->
+            <select name="category" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="">All Categories</option>
+                <option value="causes" {% if category_filter == 'causes' %}selected{% endif %}>Causes</option>
+                <option value="effects" {% if category_filter == 'effects' %}selected{% endif %}>Effects</option>
+                <option value="solutions" {% if category_filter == 'solutions' %}selected{% endif %}>Solutions</option>
+            </select>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Search
+            </button>
+        </form>
+    </div>
+
+    <!-- Resources List -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px;">
+        {% for resource in resources %}
+        <div
+            style="background-color: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); color: white;">
+            <h3>{{ resource.title }}</h3>
+            <p>{{ resource.description }}</p>
+            <p><strong>Category:</strong> {{ resource.get_category_display }}</p>
+
+            {% if resource.resource_url %}
+            <a href="{{ resource.resource_url }}" target="_blank" style="color: #007bff; text-decoration: underline;">View
+                Resource</a>
+            {% elif resource.resource_file %}
+            <a href="{{ resource.resource_file.url }}" download
+                style="color: #007bff; text-decoration: underline;">Download Resource</a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No resources found. Try searching or selecting a different category.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

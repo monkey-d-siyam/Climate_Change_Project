@@ -9,3 +9,24 @@ class ClimateData(models.Model):
 
     def __str__(self):
         return f"{self.region} - {self.year}"
+
+
+from django.db import models
+
+
+class EducationalResource(models.Model):
+    CATEGORY_CHOICES = [
+        ('causes', 'Causes'),
+        ('effects', 'Effects'),
+        ('solutions', 'Solutions'),
+    ]
+
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    resource_url = models.URLField(blank=True, null=True)  # For links to videos or external resources
+    resource_file = models.FileField(upload_to='resources/', blank=True,
+                                     null=True)  # Local files like PDFs or infographics
+
+    def __str__(self):
+        return self.title
