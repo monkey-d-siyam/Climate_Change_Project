@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}NASA-Styled Climate Website{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{% static 'js/charts.js' %}" defer></script> <!-- Current Chart.js implementation -->
+  <script src="{% static 'js/climate.js' %}" defer></script> <!-- New climate feature JS -->
 </head>
 <body>
 <header>
@@ -17,6 +20,25 @@
   <a href="/about/">About</a>
 </nav>
 {% block content %}
+<section id="real-time-climate" style="text-align: center; padding: 40px; background-color: #1c2541; color: white;">
+    <h2>Real-Time Climate Data</h2>
+    <p>Explore real-time temperature and climate data from cities across the globe!</p>
+
+    <!-- Dropdown & Button -->
+    <div style="margin: 20px;">
+        <label for="city-input" style="color: white;">Enter City:</label>
+        <input type="text" id="city-input" placeholder="e.g., New York" />
+        <button id="fetch-data-btn" style="background: #007bff; color: white; padding: 8px 16px; border-radius: 5px; border: none; cursor: pointer;">Get Data</button>
+    </div>
+
+    <!-- Display Temperature -->
+    <div id="climate-display" style="margin-top: 20px;">
+        <canvas id="temperatureChart" style="max-width: 800px; margin: auto;"></canvas>
+    </div>
+
+    <!-- Error/Status Messages -->
+    <p id="error-message" style="color: red; margin-top: 20px; display: none;"></p>
+</section>
 {% endblock %}
 <footer>
   <p>&copy; 2025 - Climate Explorer | Inspired by NASA</p>
