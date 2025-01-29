@@ -23,22 +23,25 @@ def carbon_calculator(request):
 
 
 def fetch_temperature_data(request):
-    """Fetches real-time climate data for a given city and determines if it's at risk."""
-    API_KEY = "47a6cc6d907164de60f86c3476008383"  # Replace with your OpenWeatherMap API key
-    city = request.GET.get('city', '').strip()  # Retrieve and clean the city name
+    """
+    Fetches real-time climate data for a given city and determines if it's at risk.
+    """
+    API_KEY = "47a6cc6d907164de60f86c3476008383"  # Replace with your valid OpenWeatherMap API key
+    city = request.GET.get('city', '').strip()
+
+    # Validate if a city name is provided
     if not city:
         return JsonResponse({'status': 'error', 'message': 'Please provide a valid city name.'})
 
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
 
     try:
-        # Send the API request
+        # Make the API request to OpenWeatherMap
         response = requests.get(url)
         data = response.json()
 
-        # Check for valid response
         if response.status_code == 200:
-            # Extract climate data
+            # Extract relevant climate data
             climate_data = {
                 'city': data['name'],
                 'temperature': data['main']['temp'],
@@ -46,26 +49,25 @@ def fetch_temperature_data(request):
                 'pressure': data['main']['pressure'],
             }
 
-            # Determine if the city is "At Risk" based on certain climate thresholds
-            # Example: arbitrarily setting 'at risk' if temperature > 35°C or humidity > 80%
+            # Determine risk status based on thresholds
             if climate_data['temperature'] > 35 or climate_data['humidity'] > 80:
                 risk_status = "At Risk"
             else:
                 risk_status = "Not at Risk"
 
-            # Include the risk status in the response data
+            # Include risk status in the response
             climate_data['risk_status'] = risk_status
 
             return JsonResponse({'status': 'success', 'data': climate_data})
         else:
-            # Handle API errors gracefully
+            # Handle errors from the OpenWeatherMap API
             return JsonResponse({
                 'status': 'error',
                 'message': data.get('message', 'City not found!')
             })
 
     except requests.exceptions.RequestException as error:
-        # Handle network or request-related issues
+        # Handle network/request-related issues
         return JsonResponse({'status': 'error', 'message': f"API request failed: {str(error)}"})
 
 from .models import EducationalResource
