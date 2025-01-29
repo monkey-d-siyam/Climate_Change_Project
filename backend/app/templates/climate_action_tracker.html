@@ -1,58 +1,159 @@
 {% extends 'base.html' %}
 
-{% block title %}Climate Action Tracker{% endblock %}
+{% block title %}
+Interactive Climate Map
+{% endblock %}
 
 {% block content %}
-<div style="padding: 20px; color: #fff; background-color: #1c2541;">
-    <h1 style="color: #f4a261;">Climate Action Tracker</h1>
-    <p style="color: #cdd4ea;">Explore the progress of countries, organizations, and individuals toward climate goals.</p>
+<div style="padding: 20px; color: #1c2541; background-color: #f8f9fa;">
+    <h1 style="color: #1c2541;">🌍 Interactive Climate Map</h1>
+    <p>Explore climate data across the globe with precision using heatmaps, detailed region data, and metric overlays.</p>
 
-    <!-- Scorecards and Progress Bars -->
-    <div class="action-cards">
-        {% for action in actions %}
-        <div style="border: 1px solid #f4a261; padding: 15px; margin-bottom: 15px; border-radius: 5px; background-color: #243447;">
-            <h3 style="color: #f4a261;">{{ action.name }}</h3>
-            <p><strong>Entity Type:</strong> <span style="color: #cdd4ea;">{{ action.get_entity_type_display }}</span></p>
-            <p><strong>Target:</strong> <span style="color: #cdd4ea;">{{ action.target }}</span></p>
-
-            <!-- Progress Bar -->
-            <div style="background-color: #4c576f; border-radius: 5px; overflow: hidden; margin-top: 10px;">
-                <div style="width: {{ action.progress_percentage }}%; background-color: #f4a261; height: 20px; color: #1c2541; text-align: center; line-height: 20px; border-radius: 5px;">
-                    {{ action.progress_percentage }}%
-                </div>
-            </div>
-
-            <!-- Link to Official Source -->
-            <p style="margin-top: 10px;">
-                <strong>Source:</strong>
-                <a href="{{ action.source }}" target="_blank" style="color: #f4a261; text-decoration: none;">Official Report</a>
-            </p>
-        </div>
-        {% endfor %}
+    <!-- Year Selector -->
+    <div style="margin-top: 20px; padding: 10px; background-color: #e8f5e9; border-radius: 8px;">
+        <label for="yearSelect" style="margin-right: 10px; color: #1c2541;"><strong>View Year:</strong></label>
+        <input id="yearSelect" type="range" min="2000" max="2023" value="2023" step="1"
+                style="width: 300px;" oninput="updateYearLabel(this.value)">
+        <span id="yearLabel" style="margin-left: 10px; font-weight: bold;">2023</span>
     </div>
 
-    <!-- Comparison Section -->
-    <div style="margin-top: 30px;">
-        <h2 style="color: #f4a261;">Comparisons Between Entities</h2>
-        <p style="color: #cdd4ea;">Compare the progress of different entities toward their climate goals below.</p>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; background-color: #243447; color: #fff;">
-            <thead>
-                <tr style="background-color: #f4a261; color: #1c2541;">
-                    <th style="padding: 10px; text-align: left;">Entity</th>
-                    <th style="padding: 10px; text-align: left;">Entity Type</th>
-                    <th style="padding: 10px; text-align: left;">Progress (%)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for action in actions %}
-                <tr style="border-bottom: 1px solid #4c576f;">
-                    <td style="padding: 10px; color: #cdd4ea;">{{ action.name }}</td>
-                    <td style="padding: 10px; color: #cdd4ea;">{{ action.get_entity_type_display }}</td>
-                    <td style="padding: 10px; color: #cdd4ea;">{{ action.progress_percentage }}%</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Map Container -->
+    <div id="map" style="width: 100%; height: 600px; margin-top: 20px;"></div>
+
+    <!-- Filters -->
+    <div style="margin-top: 20px; padding: 10px; background-color: #e0f2f1; border-radius: 8px;">
+        <label for="layerSelect" style="margin-right: 10px; color: #1c2541;"><strong>Select Data Layer:</strong></label>
+        <select id="layerSelect" style="padding: 5px; border-radius: 5px;">
+            <option value="co2_emissions">CO₂ Emissions</option>
+            <option value="renewable_energy">Renewable Energy</option>
+            <option value="deforestation">Deforestation Rates</option>
+            <option value="climate_policies">Impact of Climate Policies</option>
+        </select>
+        <button id="updateLayer" style="padding: 5px 15px; background-color: #43aa8b; color: white; border: none; border-radius: 5px; margin-left: 10px;">
+            Update Map
+        </button>
+    </div>
+
+    <!-- Details Section -->
+    <div id="details" style="margin-top: 20px; padding: 20px; border: 1px solid #ddd; background-color: #ffffff; border-radius: 8px; display: none;">
+        <h3 style="color: #1c2541;">🌟 Metric Details</h3>
+        <p id="metricDetails" style="color: #333;">No data to show. Select a metric to view details.</p>
     </div>
 </div>
+
+<script>
+    let map;
+    let heatmapLayer;
+    let geoJsonLayer;
+    let selectedYear = 2023; // Default year
+    let selectedMetric = 'co2_emissions';
+
+    // Initialize Google Map
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 20, lng: 0 },
+            zoom: 3,
+            mapTypeControl: false,
+            streetViewControl: false,
+        });
+
+        // Load the default layer (CO₂ Emissions for 2023)
+        updateLayer(selectedMetric);
+        updateDetails();
+    }
+
+    // Update year label and refresh data
+    function updateYearLabel(year) {
+        document.getElementById('yearLabel').innerText = year;
+        selectedYear = year;
+
+        // Refresh map and details with new year
+        updateLayer(selectedMetric);
+        updateDetails();
+    }
+
+    // Update metric and refresh map
+    function updateLayer(metric) {
+        selectedMetric = metric;
+
+        // Clear previous layers
+        if (heatmapLayer) heatmapLayer.setMap(null);
+        if (geoJsonLayer) geoJsonLayer.setMap(null);
+
+        // Load selected data layer
+        if (metric === 'co2_emissions' || metric === 'renewable_energy') {
+            loadHeatmap();
+        } else if (metric === 'deforestation' || metric === 'climate_policies') {
+            loadGeoJsonOverlay();
+        }
+
+        updateDetails(); // Update details whenever the layer changes
+    }
+
+    // Fetch heatmap layer data
+    function loadHeatmap() {
+        fetch(`/api/climate-map-heatmap?metric=${selectedMetric}&year=${selectedYear}`)
+            .then(response => response.json())
+            .then(data => {
+                const heatmapData = data.points.map(point => ({
+                    location: new google.maps.LatLng(point.lat, point.lng),
+                    weight: point.value,
+                }));
+
+                heatmapLayer = new google.maps.visualization.HeatmapLayer({
+                    data: heatmapData,
+                    radius: 30,
+                });
+
+                heatmapLayer.setMap(map);
+            })
+            .catch(console.error);
+    }
+
+    // Fetch GeoJSON overlay data
+    function loadGeoJsonOverlay() {
+        fetch(`/api/climate-map-geojson?metric=${selectedMetric}&year=${selectedYear}`)
+            .then(response => response.json())
+            .then(data => {
+                geoJsonLayer = new google.maps.Data();
+
+                geoJsonLayer.addGeoJson(data);
+                geoJsonLayer.setMap(map);
+            })
+            .catch(console.error);
+    }
+
+    // Update the details section
+    function updateDetails() {
+        fetch(`/api/climate-map-details?metric=${selectedMetric}&year=${selectedYear}`)
+            .then(response => response.json())
+            .then(data => {
+                const detailsDiv = document.getElementById('details');
+                const detailsParagraph = document.getElementById('metricDetails');
+
+                detailsDiv.style.display = "block"; // Show details section
+                detailsParagraph.innerHTML = `
+                    <strong>Year:</strong> ${selectedYear}<br/>
+                    <strong>Metric:</strong> ${data.metricName}<br/>
+                    <strong>Description:</strong> ${data.description}<br/>
+                    <strong>Key Insights:</strong> ${data.insights}<br/>
+                `;
+            })
+            .catch(error => {
+                console.error("Failed to update details section:", error);
+            });
+    }
+
+    // Event listener for updating map layer
+    document.getElementById('updateLayer').addEventListener('click', () => {
+        const metric = document.getElementById('layerSelect').value;
+        updateLayer(metric);
+    });
+
+    // Load Google Maps Script
+    const script = document.createElement('script');
+    script.src = `https://maps.gomaps.pro/maps/api/js?key=AlzaSyz_qEVT1fQo7lzKxonHBs6iiEIXUNsWTCq&libraries=visualization&callback=initMap`;
+    script.async = true;
+    document.head.appendChild(script);
+</script>
 {% endblock %}

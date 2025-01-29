@@ -33,7 +33,6 @@ class EducationalResource(models.Model):
 
 from django.db import models
 
-
 class ClimateAction(models.Model):
     ENTITY_TYPE_CHOICES = [
         ('country', 'Country'),
@@ -41,11 +40,19 @@ class ClimateAction(models.Model):
         ('individual', 'Individual'),
     ]
 
-    name = models.CharField(max_length=255)  # Name of country, organization, or individual
+    name = models.CharField(max_length=255)
     entity_type = models.CharField(max_length=15, choices=ENTITY_TYPE_CHOICES)
-    progress_percentage = models.PositiveIntegerField()  # Progress between 0–100
-    target = models.TextField()  # Description of the climate goal/target
-    source = models.URLField()  # Link to official reports or sources
+    progress_percentage = models.PositiveIntegerField()
+    target = models.TextField()
+    source = models.URLField()
+    latitude = models.FloatField(default=0.0)  # Add default latitude
+    longitude = models.FloatField(default=0.0)  # Add default longitude
 
-    def __str__(self):
-        return self.name
+    def badge(self):  # Achievement logic
+        if self.progress_percentage >= 100:
+            return "Gold Badge"
+        elif self.progress_percentage >= 75:
+            return "Silver Badge"
+        elif self.progress_percentage >= 50:
+            return "Bronze Badge"
+        return None
