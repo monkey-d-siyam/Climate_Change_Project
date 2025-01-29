@@ -18,6 +18,11 @@ def climate_page(request):
     return render(request, 'climate.html')
 
 
+# View to render the Carbon Footprint Calculator page
+def carbon_calculator(request):
+    return render(request, 'carbon_calculator.html')
+
+
 def fetch_temperature_data(request):
     """Fetches real-time climate data for a given city and determines if it's at risk."""
     API_KEY = "47a6cc6d907164de60f86c3476008383"  # Replace with your OpenWeatherMap API key

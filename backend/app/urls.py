@@ -6,4 +6,5 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('climate/', views.climate_page, name='climate'),
     path('api/temperature/', views.fetch_temperature_data, name='fetch_temperature_data'),
+    path('carbon-calculator/', views.carbon_calculator, name='carbon_calculator'),  # New route
 ]

@@ -3,8 +3,22 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+
+<!-- Hero Section -->
 <section class="hero">
     <h2>Welcome to the Climate Explorer</h2>
     <p>Explore and visualize data on climate change, inspired by space exploration and NASA's expertise.</p>
 </section>
+
+<!-- Call-to-Action for Carbon Footprint Calculator -->
+<section id="cta-carbon-calculator" style="text-align: center; padding: 40px; background-color: #1c2541; color: white;">
+    <h2>Want to Know Your Carbon Footprint?</h2>
+    <p>Discover how your lifestyle impacts the climate and find ways to reduce your emissions.</p>
+    <a href="/carbon-calculator/" style="text-decoration: none;">
+        <button style="background: #f4a261; color: white; padding: 12px 20px; border-radius: 5px; border: none; cursor: pointer;">
+            Calculate Now
+        </button>
+    </a>
+</section>
+
 {% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Carbon Calculator{% endblock %}
+
+{% block content %}
+<section id="carbon-calculator" style="background-color: #1c2541; color: white; padding: 40px; text-align: center;">
+    <h1 style="margin-bottom: 20px;">Carbon Footprint Calculator</h1>
+    <p style="margin-bottom: 30px;">Calculate your carbon footprint based on your lifestyle choices and learn how to reduce it.</p>
+
+    <!-- Calculator Form -->
+    <form id="calculator-form" style="max-width: 600px; margin: auto; text-align: left; background-color: #243b55; padding: 20px; border-radius: 10px;">
+        <fieldset style="border: none; margin-bottom: 20px;">
+            <legend style="color: #f4a261; font-size: 1.2em; margin-bottom: 10px;">Energy Usage</legend>
+            <label for="electricity" style="margin-bottom: 10px; display: block;">Electricity Usage (kWh per month):</label>
+            <input type="number" id="electricity" name="electricity" placeholder="e.g., 400" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: none; border-radius: 5px;">
+            <label for="heating" style="margin-bottom: 10px; display: block;">Natural Gas or Heating Fuels Usage (kWh per month):</label>
+            <input type="number" id="heating" name="heating" placeholder="e.g., 200" style="width: 100%; padding: 10px; border: none; border-radius: 5px;">
+        </fieldset>
+
+        <fieldset style="border: none; margin-bottom: 20px;">
+            <legend style="color: #f4a261; font-size: 1.2em; margin-bottom: 10px;">Transportation</legend>
+            <label for="car-travel" style="margin-bottom: 10px; display: block;">Car Travel (km per week):</label>
+            <input type="number" id="car-travel" name="car-travel" placeholder="e.g., 50" style="width: 100%; padding: 10px; margin-bottom: 15px; border: none; border-radius: 5px;">
+            <label for="public-transport" style="margin-bottom: 10px; display: block;">Public Transportation (km per week):</label>
+            <input type="number" id="public-transport" name="public-transport" placeholder="e.g., 20" style="width: 100%; padding: 10px; margin-bottom: 15px; border: none; border-radius: 5px;">
+            <label for="air-travel" style="margin-bottom: 10px; display: block;">Air Travel (hours per year):</label>
+            <input type="number" id="air-travel" name="air-travel" placeholder="e.g., 10" style="width: 100%; padding: 10px; border: none; border-radius: 5px;">
+        </fieldset>
+
+        <fieldset style="border: none; margin-bottom: 20px;">
+            <legend style="color: #f4a261; font-size: 1.2em; margin-bottom: 10px;">Diet</legend>
+            <label for="diet" style="margin-bottom: 10px;">Diet Type:</label>
+            <select id="diet" name="diet" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: none;">
+                <option value="omnivore">Omnivore (Meat-Based)</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="vegan">Vegan</option>
+            </select>
+        </fieldset>
+
+        <fieldset style="border: none; margin-bottom: 20px;">
+            <legend style="color: #f4a261; font-size: 1.2em; margin-bottom: 10px;">Waste</legend>
+            <label for="waste" style="margin-bottom: 10px; display: block;">General Waste (kg per week):</label>
+            <input type="number" id="waste" name="waste" placeholder="e.g., 5" style="width: 100%; padding: 10px; margin-bottom: 15px; border: none; border-radius: 5px;">
+        </fieldset>
+
+        <button type="button" id="calculate-btn" style="background: #f4a261; color: white; padding: 12px 20px; border-radius: 5px; border: none; cursor: pointer; width: 100%;">
+            Calculate
+        </button>
+    </form>
+
+    <!-- Results Section -->
+    <div id="results-section" style="display: none; margin-top: 30px;">
+        <h2 style="margin-bottom: 20px;">Your Carbon Footprint Results</h2>
+        <canvas id="carbonChart" style="max-width: 600px; margin: auto;"></canvas>
+        <p id="tips-section" style="margin-top: 20px;"></p>
+    </div>
+</section>
+
+<script src="{% static 'js/carbon_calculator.js' %}"></script>
+{% endblock %}
