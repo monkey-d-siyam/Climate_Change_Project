@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Climate Action Tracker{% endblock %}
+
+{% block content %}
+<div style="padding: 20px; color: #fff; background-color: #1c2541;">
+    <h1 style="color: #f4a261;">Climate Action Tracker</h1>
+    <p style="color: #cdd4ea;">Explore the progress of countries, organizations, and individuals toward climate goals.</p>
+
+    <!-- Scorecards and Progress Bars -->
+    <div class="action-cards">
+        {% for action in actions %}
+        <div style="border: 1px solid #f4a261; padding: 15px; margin-bottom: 15px; border-radius: 5px; background-color: #243447;">
+            <h3 style="color: #f4a261;">{{ action.name }}</h3>
+            <p><strong>Entity Type:</strong> <span style="color: #cdd4ea;">{{ action.get_entity_type_display }}</span></p>
+            <p><strong>Target:</strong> <span style="color: #cdd4ea;">{{ action.target }}</span></p>
+
+            <!-- Progress Bar -->
+            <div style="background-color: #4c576f; border-radius: 5px; overflow: hidden; margin-top: 10px;">
+                <div style="width: {{ action.progress_percentage }}%; background-color: #f4a261; height: 20px; color: #1c2541; text-align: center; line-height: 20px; border-radius: 5px;">
+                    {{ action.progress_percentage }}%
+                </div>
+            </div>
+
+            <!-- Link to Official Source -->
+            <p style="margin-top: 10px;">
+                <strong>Source:</strong>
+                <a href="{{ action.source }}" target="_blank" style="color: #f4a261; text-decoration: none;">Official Report</a>
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Comparison Section -->
+    <div style="margin-top: 30px;">
+        <h2 style="color: #f4a261;">Comparisons Between Entities</h2>
+        <p style="color: #cdd4ea;">Compare the progress of different entities toward their climate goals below.</p>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; background-color: #243447; color: #fff;">
+            <thead>
+                <tr style="background-color: #f4a261; color: #1c2541;">
+                    <th style="padding: 10px; text-align: left;">Entity</th>
+                    <th style="padding: 10px; text-align: left;">Entity Type</th>
+                    <th style="padding: 10px; text-align: left;">Progress (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for action in actions %}
+                <tr style="border-bottom: 1px solid #4c576f;">
+                    <td style="padding: 10px; color: #cdd4ea;">{{ action.name }}</td>
+                    <td style="padding: 10px; color: #cdd4ea;">{{ action.get_entity_type_display }}</td>
+                    <td style="padding: 10px; color: #cdd4ea;">{{ action.progress_percentage }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -69,7 +69,6 @@ def fetch_temperature_data(request):
         # Handle network or request-related issues
         return JsonResponse({'status': 'error', 'message': f"API request failed: {str(error)}"})
 
-from django.shortcuts import render
 from .models import EducationalResource
 
 
@@ -90,4 +89,13 @@ def educational_resources(request):
         'resources': resources,
         'query': query,
         'category_filter': category_filter,
+    })
+
+from .models import ClimateAction
+
+def climate_action_tracker(request):
+    actions = ClimateAction.objects.all()
+
+    return render(request, 'climate_action_tracker.html', {
+        'actions': actions,
     })
