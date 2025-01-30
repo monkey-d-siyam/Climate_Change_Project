@@ -1,22 +1,25 @@
 body {
     margin: 0;
-    font-family: 'Roboto', Arial, sans-serif; /* Clean, modern typography */
-    background-color: #0b132b; /* Dark space background */
-    color: #fff; /* White colored text */
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #0b132b;
+    color: #fff;
+    background-image: url('../images/nasa_bg.jpg'); /* Ensure this path is correct */
+    background-size: cover;
+    background-position: center center;
 }
 
 a {
-    color: #007bff; /* NASA-themed blue links */
+    color: #007bff;
     text-decoration: none;
 }
 
 a:hover {
-    color: #ffa500; /* Orange hover effect */
+    color: #ffa500;
 }
 
 /* Header and Navbar */
 header {
-    background-color: #1c2541; /* Dark gray with a slight blue tint */
+    background-color: #1c2541;
     padding: 10px 0;
     border-bottom: 2px solid #3a506b;
     text-align: center;
@@ -34,7 +37,7 @@ header h1 {
     justify-content: center;
     gap: 20px;
     padding: 15px 0;
-    background-color: #3a506b; /* Slightly lighter gray for navbar */
+    background-color: #3a506b;
 }
 
 .navbar a {
@@ -45,6 +48,26 @@ header h1 {
 
 .navbar a:hover {
     color: #ffa500;
+}
+
+/* Footer */
+footer {
+    background-color: #1c2541;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+/* Chart Container */
+#carbonChart {
+    padding: 10px;
+    margin: 0 auto;
+    display: block;
 }
 
 /* Homepage Hero Section */
@@ -67,20 +90,6 @@ header h1 {
     line-height: 1.6;
     max-width: 800px;
     margin: 20px auto;
-}
-
-/* Footer */
-footer {
-    background-color: #1c2541;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: 30px;
-}
-
-footer p {
-    font-size: 0.9rem;
-    color: #ccc;
-}
 
 /* Real-Time Climate Section */
 #real-time-climate {
@@ -101,4 +110,31 @@ footer p {
 
 #fetch-data-btn:hover {
     background-color: #0056b3;
+}
+
+#story-output {
+    display: none;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #243b55;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Styles for the Climate Change Story Generator page */
+#story-form label {
+    color: #f4a261;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+#story-form textarea {
+    border-radius: 5px;
+    border: none;
+}
+#story-output h3 {
+    font-size: 1.5em;
+    color: #f4a261;
+    margin-bottom: 10px;
 }

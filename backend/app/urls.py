@@ -12,4 +12,5 @@ urlpatterns = [
     path('api/climate-map-heatmap', views.climate_map_heatmap, name='climate_map_heatmap'),
     path('api/climate-map-geojson', views.climate_map_geojson, name='climate_map_geojson'),
     path('api/climate-map-details/', views.climate_map_details, name='climate_map_details'),
+    path('story-generator/', views.story_generator_page, name='story_generator'),
 ]

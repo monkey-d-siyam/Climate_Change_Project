@@ -1,3 +1,22 @@
+from django.shortcuts import render
+from django.http import JsonResponse
+import json
+import os
+import requests
+import logging
+import time
+from django.views.decorators.csrf import csrf_exempt
+from openai import OpenAI  # Ensure this is installed: pip install openai
+from dotenv import load_dotenv
+
+# Configure logging for debugging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Load environment variables
+load_dotenv()
+
+
 import requests
 from django.http import JsonResponse
 
@@ -18,6 +37,7 @@ def climate_page(request):
 
 
 # View to render the Carbon Footprint Calculator page
+
 def carbon_calculator(request):
     return render(request, 'carbon_calculator.html')
 
@@ -181,3 +201,55 @@ def climate_map_details(request):
 
     details = mock_details.get(metric, {})
     return JsonResponse(details)
+# Story Generator Page
+def story_generator_page(request):
+    """
+    Render the Climate Change Story Generator page.
+    """
+    return render(request, 'story_generator.html')
+
+
+# Story Generator Logic
+@csrf_exempt
+def generate_story(request):
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            user_actions = body.get("user_actions", "").strip()
+            if not user_actions:
+                return JsonResponse({"error": "No user actions provided"}, status=400)
+
+            api_key = os.getenv("GITHUB_TOKEN")  # Replace with your GPT API key in .env
+            if not api_key:
+                logger.error("API Key is missing.")
+                return JsonResponse({"error": "Internal Server Error: API Key missing"}, status=500)
+
+            client = OpenAI(api_key=api_key)
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    response = client.chat_completions.create(
+                        model="gpt-4o",
+                        messages=[
+                            {"role": "system", "content": "You are an AI that generates climate impact stories."},
+                            {"role": "user", "content": f"Write an inspiring story for: {user_actions}"}
+                        ],
+                        temperature=1.0,
+                        max_tokens=4096,
+                        top_p=1,
+                    )
+                    story = response.choices[0].message.content
+                    return JsonResponse({"story": story})
+                except Exception as e:
+                    if "429" in str(e) and attempt < max_retries - 1:
+                        logger.warning(f"Rate limit reached. Retrying {attempt + 1}/{max_retries}.")
+                        time.sleep(2 ** attempt)
+                    else:
+                        logger.error("Error while generating story.")
+                        return JsonResponse({"error": "Failed to generate story. Try again."}, status=500)
+
+        except Exception as e:
+            logger.exception("Unexpected error in generate_story.")
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=400)
