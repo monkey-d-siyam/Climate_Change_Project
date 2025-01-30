@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Change Story Generator</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body style="background: #0b132b; color: white;">
+    <!-- Header Section -->
+    <header style="background-color: rgba(28, 37, 65, 0.9); color: white; padding: 10px 20px;">
+        <h1>Climate Change Story Generator</h1>
+    </header>
+
+    <!-- Story Generator Section -->
+    <section id="story-generator" style="background-color: #243b55; color: white; padding: 40px; text-align: center; margin: 40px auto; max-width: 800px; border-radius: 10px;">
+        <h2 style="margin-bottom: 20px;">Generate Your Climate Change Story</h2>
+        <p style="margin-bottom: 30px;">Describe your climate-friendly actions, and we'll generate an inspiring story about a future shaped by your contributions!</p>
+
+        <!-- Input form -->
+        <form id="story-form" style="text-align: left; background-color: #1c2541; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto;">
+            <label for="climate-actions" style="color: #f4a261; font-size: 1.2em;">Your Climate Actions:</label>
+            <textarea id="climate-actions"
+                      placeholder="e.g., I bike to work, I use solar energy, I compost food waste..."
+                      required
+                      style="width: 100%; margin-top: 10px; padding: 10px; height: 100px; border-radius: 5px; border: none;"></textarea>
+            <button type="button" id="generate-story-btn"
+                    style="width: 100%; margin-top: 15px; padding: 10px; background-color: #f4a261; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Generate Story
+            </button>
+        </form>
+
+        <!-- Output Story Section -->
+        <div id="story-output" style="display: none; margin-top: 20px; padding: 20px; background-color: #f4f4f4; color: #243b55; border-radius: 10px;">
+            <h3>Your Climate Impact Story:</h3>
+            <p id="generated-story" style="font-style: italic;"></p>
+            <button id="share-story-btn"
+                    style="margin-top: 10px; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Share on Social Media
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background-color: rgba(28, 37, 65, 0.9); color: white; text-align: center; padding: 10px;">
+        <p>&copy; 2025 Climate Explorer. All rights reserved.</p>
+    </footer>
+
+    <!-- Include external JavaScript -->
+    <script src="{% static 'js/story_generator.js' %}"></script>
+</body>
+</html>
