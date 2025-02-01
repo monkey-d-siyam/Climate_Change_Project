@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import generate_story
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -13,4 +14,5 @@ urlpatterns = [
     path('api/climate-map-geojson', views.climate_map_geojson, name='climate_map_geojson'),
     path('api/climate-map-details/', views.climate_map_details, name='climate_map_details'),
     path('story-generator/', views.story_generator_page, name='story_generator'),
+    path("generate-story/", generate_story, name="generate_story"),
 ]

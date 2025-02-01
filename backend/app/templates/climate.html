@@ -6,14 +6,13 @@
 {% block content %}
 <section id="real-time-climate" style="text-align: center; padding: 40px; background-color: #1c2541; color: white;">
     <h2>Real-Time Climate Data</h2>
-    <p>Explore real-time temperature and climate data from cities across the globe!</p>
+    <p id="risk-message" style="display: none; font-weight: bold; white-space: pre-line; margin-top: 20px; padding: 10px; border-radius: 5px;"></p>
 
     <!-- Input Section -->
     <div style="margin: 20px;">
-        <label for="city-input" style="color: white;">Enter City:</label>
-        <input type="text" id="city-input" placeholder="Enter city name here">
-        <button id="fetch-data-btn">Get Data</button>
-        <p id="risk-message" style="display: none; font-weight: bold;"></p>
+        <label for="city-input" style="color: white; font-size: 18px; font-weight: bold;">Enter City:</label>
+        <input type="text" id="city-input" placeholder="Enter city name here" style="margin-right: 10px; padding: 5px;">
+        <button id="fetch-data-btn" style="padding: 10px; background: #ffa500; color: white; border: none; border-radius: 5px; cursor: pointer;">Get Data</button>
     </div>
 
     <!-- Chart Container -->
@@ -22,7 +21,7 @@
     </div>
 
     <!-- Error/Status Messages -->
-    <p id="error-message" style="color: red; margin-top: 20px; display: none;"></p>
+    <p id="error-message" style="color: red; margin-top: 20px; display: none; font-weight: bold;"></p>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

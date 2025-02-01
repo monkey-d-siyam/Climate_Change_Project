@@ -39,14 +39,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(data => {
+                console.log("API Response:", data);
+
                 if (data.status === 'success') {
                     updateMultiAxisChart(data.data);
+
+                    const cityName = data.data.city;
                     const riskStatus = data.data.risk_status;
-                    riskMessage.textContent = `The city of ${data.data.city} is ${riskStatus} for climate change.`;
-                    riskMessage.style.color = riskStatus === 'At Risk' ? 'red' : 'green';
+                    const riskDetails = data.data.risk_details || "No details provided.";
+                    const suggestions = data.data.suggestions || "No suggestions available.";
+
+                    // Display risk message with explanations and suggestions
+                    console.log("Preparing to inject message...");
+                    if (riskStatus === 'At Risk') {
+                        riskMessage.innerHTML = `
+                            <strong>The city of ${cityName} is ${riskStatus} for climate change.</strong>
+                            <p><b>Reason:</b> ${riskDetails}</p>
+                            <p><b>Suggestions:</b> ${suggestions}</p>
+                        `;
+                        console.log("Generated At Risk message:", riskMessage.innerHTML); // Debug final content
+
+                        riskMessage.style.color = 'red';
+                        riskMessage.style.backgroundColor = '#ffe6e6';
+                    } else {
+                        riskMessage.innerHTML = `
+                            <strong>The city of ${cityName} is ${riskStatus} for climate change.</strong>
+                            <p><b>Reason:</b> ${riskDetails}</p>
+                        `;
+                        console.log("Generated Not At Risk message:", riskMessage.innerHTML); // Debug final content
+
+                        riskMessage.style.color = 'green';
+                        riskMessage.style.backgroundColor = '#e6ffe6';
+                    }
                     riskMessage.style.display = 'block';
                 } else {
-                    errorMessage.textContent = data.message;
+                    errorMessage.textContent = data.message || "Unable to retrieve data.";
                     errorMessage.style.display = 'block';
                 }
             })
@@ -100,76 +127,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     title: {
                         display: true,
-                        text: `Climate Metrics for ${climateData.city}`, // Dynamic Title
+                        text: `Climate Metrics for ${climateData.city}`,
                         font: {
                             size: 18,
                         },
                     },
-                    tooltip: {
-                        enabled: true,
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const datasetLabel = tooltipItem.dataset.label || '';
-                                const value = tooltipItem.raw;
-                                return `${datasetLabel}: ${value}`;
-                            },
-                        },
-                    },
-                    legend: {
-                        display: true, // Show the legend
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 12,
-                            },
-                        },
-                    },
                 },
                 scales: {
-                    // Left Y-axis for temperature and humidity
                     'y-left': {
                         type: 'linear',
                         position: 'left',
-                        title: {
-                            display: true,
-                            text: 'Temperature (°C) & Humidity (%)',
-                            font: {
-                                size: 14,
-                            },
-                        },
-                        ticks: {
-                            stepSize: 10,
-                        },
-                        grid: {
-                            drawOnChartArea: false, // Avoid overlapping grid lines
-                        },
                     },
-                    // Right Y-axis for pressure
                     'y-right': {
                         type: 'linear',
                         position: 'right',
-                        title: {
-                            display: true,
-                            text: 'Pressure (hPa)',
-                            font: {
-                                size: 14,
-                            },
-                        },
-                        ticks: {
-                            stepSize: 100,
-                        },
-                        grid: {
-                            drawOnChartArea: false, // Avoid overlapping grid lines
-                        },
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Climate Metrics',
-                            font: {
-                                size: 14,
-                            },
-                        },
                     },
                 },
             },

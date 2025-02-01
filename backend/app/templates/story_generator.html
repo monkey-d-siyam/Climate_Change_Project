@@ -51,3 +51,14 @@
     <script src="{% static 'js/story_generator.js' %}"></script>
 </body>
 </html>
+   <script>
+       document.getElementById("share-story-btn").addEventListener("click", () => {
+           const story = document.getElementById("generated-story").textContent;
+           if (!story.trim()) {
+               alert("No story generated to share!");
+               return;
+           }
+           const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(story)}`;
+           window.open(twitterUrl, "_blank");
+       });
+   </script>

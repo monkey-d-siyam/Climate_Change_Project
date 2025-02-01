@@ -2,44 +2,33 @@
 <html lang="en">
 <head>
     {% load static %}
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Climate Explorer{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body style="background: url('{% static "images/nasa_bg.jpg" %}') no-repeat center center fixed; background-size: cover; color: white;">
+<body>
     <!-- Header Section -->
-    <header style="background-color: rgba(28, 37, 65, 0.9); color: white; padding: 10px 20px;">
-        <h1 style="margin: 0; padding: 0;">Climate Explorer</h1>
-
-        <!-- Navigation Bar -->
-        <nav style="margin-top: 10px;">
-            <ul style="list-style: none; padding: 0; display: flex; gap: 20px; justify-content: center;">
-                <li style="display: inline;">
-                    <a href="/" style="text-decoration: none; color: white;">Home</a>
-                </li>
-                <li style="display: inline;">
-                    <a href="/climate/" style="text-decoration: none; color: white;">Climate Data</a>
-                </li>
-                <li style="display: inline;">
-                    <a href="/about/" style="text-decoration: none; color: white;">About</a>
-                </li>
-                <li style="display: inline;">
-                    <a href="/educational-resources/" style="text-decoration: none; color: white;">Educational Resources</a>
-                </li>
-            </ul>
+    <header>
+        <div class="logo">
+            <h1>Climate Explorer</h1>
+        </div>
+        <nav class="navbar">
+            <a href="/">Home</a>
+            <a href="/climate/">Climate Data</a>
+            <a href="/educational-resources/">Educational Resources</a>
+            <a href="/about/">About</a>
         </nav>
     </header>
 
-    <!-- Content Section -->
+    <!-- Main Content Area -->
     <main>
         {% block content %}
         {% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer style="background-color: rgba(28, 37, 65, 0.9); color: white; text-align: center; padding: 10px; margin-top: 20px;">
+    <footer>
         <p>&copy; 2025 Climate Explorer. All rights reserved.</p>
     </footer>
 </body>

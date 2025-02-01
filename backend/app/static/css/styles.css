@@ -1,140 +1,209 @@
+/* General Styles */
 body {
     margin: 0;
     font-family: 'Roboto', Arial, sans-serif;
     background-color: #0b132b;
     color: #fff;
-    background-image: url('../images/nasa_bg.jpg'); /* Ensure this path is correct */
-    background-size: cover;
-    background-position: center center;
+    line-height: 1.6;
 }
 
 a {
-    color: #007bff;
+    color: #ffa500;
     text-decoration: none;
+    transition: color 0.3s ease-in-out;
 }
 
 a:hover {
-    color: #ffa500;
+    color: #ff4500;
 }
 
-/* Header and Navbar */
+/* Header Styles */
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #1c2541;
-    padding: 10px 0;
-    border-bottom: 2px solid #3a506b;
-    text-align: center;
+    color: white;
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-header h1 {
+header .logo h1 {
+    font-size: 1.8rem;
     margin: 0;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
-    color: #fff;
 }
 
 .navbar {
     display: flex;
-    justify-content: center;
     gap: 20px;
-    padding: 15px 0;
-    background-color: #3a506b;
 }
 
 .navbar a {
-    font-size: 1rem;
-    text-transform: uppercase;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.9rem;
 }
 
-.navbar a:hover {
-    color: #ffa500;
+/* Hero Section */
+.hero {
+    position: relative;
+    background: url('{% static "images/space-bg.jpg" %}') no-repeat center center / cover;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
 }
 
-/* Footer */
-footer {
-    background-color: #1c2541;
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+    position: relative;
     text-align: center;
+    color: white;
+}
+
+.hero-content h2 {
+    font-size: 3rem;
+    margin: 0;
+    animation: fade-in 1.5s ease-in-out both;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+/* Keyframes for Hero Animation */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Call-to-Action Sections */
+#cta-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 40px 20px;
+    justify-content: center;
+    background: linear-gradient(135deg, #1c2541, #3a506b);
+}
+
+.cta-card {
+    flex: 1;
+    text-align: center;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    max-width: 320px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.cta-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.cta-card h2 {
+    font-size: 1.5rem;
+}
+
+.cta-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ffa500;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.cta-btn:hover {
+    background-color: #ff4500;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    background-color: #243b55;
+    color: #ccc;
     padding: 15px 0;
     margin-top: 30px;
-}
-
-footer p {
     font-size: 0.9rem;
-    color: #ccc;
+    letter-spacing: 0.02em;
 }
 
-/* Chart Container */
-#carbonChart {
-    padding: 10px;
-    margin: 0 auto;
-    display: block;
+footer a {
+    color: #ffa500;
+    text-decoration: underline;
 }
 
-/* Homepage Hero Section */
-.hero {
-    text-align: center;
-    padding: 100px 20px;
-    background-image: url('{% static "images/earth-space.jpg" %}');
-    background-size: cover;
-    background-position: center;
-    color: #fff;
+footer a:hover {
+    color: #ff4500;
 }
 
-.hero h2 {
-    font-size: 2.5rem;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+/* Risk Message */
+#risk-message {
+    display: none; /* Initially hidden */
+    font-weight: bold;
+    white-space: pre-line; /* Preserve line breaks in injected content */
+    margin-top: 20px; /* Add spacing above */
+    padding: 10px; /* Add padding around the content */
+    border-radius: 5px; /* Round the corners */
+    background-color: #ffe6e6; /* Default background for "At Risk" */
+    color: red; /* Text color for "At Risk" */
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.hero p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 20px auto;
-
-/* Real-Time Climate Section */
-#real-time-climate {
-    background-color: #1c2541;
-    color: white;
-    padding: 40px;
-    margin: 30px 0;
+/* Styling for a "Not at Risk" message */
+#risk-message.green {
+    background-color: #e6ffe6; /* Green background for safe cities */
+    color: green; /* Text color for "Not at Risk" */
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-#fetch-data-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h2 {
+        font-size: 2.5rem;
+    }
 
-#fetch-data-btn:hover {
-    background-color: #0056b3;
-}
+    .hero-content p {
+        font-size: 1rem;
+    }
 
-#story-output {
-    display: none;
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f4f4f4;
-    color: #243b55;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-}
+    #cta-sections {
+        flex-direction: column;
+    }
 
-/* Styles for the Climate Change Story Generator page */
-#story-form label {
-    color: #f4a261;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-}
-#story-form textarea {
-    border-radius: 5px;
-    border: none;
-}
-#story-output h3 {
-    font-size: 1.5em;
-    color: #f4a261;
-    margin-bottom: 10px;
+    .cta-card {
+        max-width: none;
+    }
 }

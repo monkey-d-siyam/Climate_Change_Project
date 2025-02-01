@@ -51,4 +51,16 @@
         {% endfor %}
     </div>
 </section>
+   <script>
+       const form = document.querySelector("form");
+       form.addEventListener("submit", (e) => {
+           e.preventDefault();
+           const query = new URLSearchParams(new FormData(form)).toString();
+           fetch(`/educational-resources/?${query}`)
+               .then((response) => response.text())
+               .then((html) => {
+                   document.querySelector("section").innerHTML = html;
+               });
+       });
+   </script>
 {% endblock %}

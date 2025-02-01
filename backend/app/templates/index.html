@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home{% endblock %}
 
@@ -6,36 +7,30 @@
 
 <!-- Hero Section -->
 <section class="hero">
-    <h2>Welcome to the Climate Explorer</h2>
-    <p>Explore and visualize data on climate change, inspired by space exploration and NASA's expertise.</p>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h2>Welcome to Climate Explorer</h2>
+        <p>Explore and visualize data on climate change, inspired by space exploration and NASA's expertise.</p>
+    </div>
 </section>
 
-<!-- Call-to-Action for Carbon Footprint Calculator -->
-<section id="cta-carbon-calculator" style="text-align: center; padding: 40px; background-color: #1c2541; color: white;">
-    <h2>Want to Know Your Carbon Footprint?</h2>
-    <p>Discover how your lifestyle impacts the climate and find ways to reduce your emissions.</p>
-    <a href="/carbon-calculator/" style="text-decoration: none;">
-        <button style="background: #f4a261; color: white; padding: 12px 20px; border-radius: 5px; border: none; cursor: pointer;">
-            Calculate Now
-        </button>
-    </a>
+<!-- Call-to-Action Section -->
+<section id="cta-sections">
+    <div class="cta-card">
+        <h2>Calculate Your Carbon Footprint</h2>
+        <p>Discover how your lifestyle impacts the climate and find ways to reduce your emissions.</p>
+        <a href="/carbon-calculator/" class="cta-btn">Calculate Now</a>
+    </div>
+    <div class="cta-card">
+        <h2>Track Climate Actions</h2>
+        <p>See the progress being made by countries, organizations, and individuals in combating climate change.</p>
+        <a href="/climate-action-tracker/" class="cta-btn">View Tracker</a>
+    </div>
+    <div class="cta-card">
+        <h2>Generate Your Climate Story</h2>
+        <p>Create an inspiring story about your impact on the fight against climate change.</p>
+        <a href="/story-generator/" class="cta-btn">Generate Story</a>
+    </div>
 </section>
 
-<!-- Call-to-Action for Climate Action Tracker -->
-<section id="cta-climate-action-tracker" style="text-align: center; padding: 40px; background-color: rgba(28, 37, 65, 0.9); color: white;">
-    <h2>Track Climate Actions</h2>
-    <p>See the progress being made by countries, organizations, and individuals in combating climate change.</p>
-    <a href="/climate-action-tracker/" style="text-decoration: none;">
-        <button style="background: #f4a261; color: white; padding: 12px 20px; border-radius: 5px; border: none; cursor: pointer;">
-            View Tracker
-        </button>
-    </a>
-</section>
-
-<!-- Story Generator Section -->
-<section style="padding: 20px; margin: 40px auto; background: rgba(28, 37, 65, 0.9); border-radius: 10px; text-align: center; max-width: 800px; color: white;">
-    <h2>Generate Your Climate Story</h2>
-    <p>Want to see how your actions shape the future? Create an inspiring story about your impact on the fight against climate change.</p>
-    <a href="/story-generator/" style="padding: 10px 20px; background: #f4a261; color: white; text-decoration: none; border-radius: 5px;">Generate Story</a>
-</section>
 {% endblock %}

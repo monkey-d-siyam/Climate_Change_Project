@@ -1,8 +1,5 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 import json
 import os
-import requests
 import logging
 import time
 from django.views.decorators.csrf import csrf_exempt
@@ -18,8 +15,6 @@ load_dotenv()
 
 
 import requests
-from django.http import JsonResponse
-
 
 # Home Page
 def index(request):
@@ -45,50 +40,136 @@ def carbon_calculator(request):
 def fetch_temperature_data(request):
     """
     Fetches real-time climate data for a given city and determines if it's at risk.
+    Also provides details on why it's at risk.
     """
-    API_KEY = "47a6cc6d907164de60f86c3476008383"  # Replace with your valid OpenWeatherMap API key
+    API_KEY = "47a6cc6d907164de60f86c3476008383"  # Replace with your secure API key
     city = request.GET.get('city', '').strip()
 
-    # Validate if a city name is provided
     if not city:
         return JsonResponse({'status': 'error', 'message': 'Please provide a valid city name.'})
 
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
 
     try:
-        # Make the API request to OpenWeatherMap
+        # Make the API request
         response = requests.get(url)
         data = response.json()
 
         if response.status_code == 200:
-            # Extract relevant climate data
+            # Extract relevant data
+            temperature = data['main']['temp']
+            humidity = data['main']['humidity']
+            pressure = data['main']['pressure']
+
             climate_data = {
                 'city': data['name'],
-                'temperature': data['main']['temp'],
-                'humidity': data['main']['humidity'],
-                'pressure': data['main']['pressure'],
+                'temperature': temperature,
+                'humidity': humidity,
+                'pressure': pressure,
             }
 
-            # Determine risk status based on thresholds
-            if climate_data['temperature'] > 35 or climate_data['humidity'] > 80:
+            # Risk assessment
+            if temperature > 35 or humidity > 80:
                 risk_status = "At Risk"
+                reasons = []
+
+                if temperature > 35:
+                    reasons.append(f"The temperature is {temperature}°C, which exceeds the safe threshold of 35°C.")
+
+                if humidity > 80:
+                    reasons.append(f"The humidity is {humidity}%, which is above the safe threshold of 80%.")
+
+                risk_details = " ".join(reasons)
+                suggestions = (
+                    "Consider staying hydrated, avoiding outdoor activities during peak heat hours, and staying updated with weather alerts."
+                )
             else:
                 risk_status = "Not at Risk"
+                risk_details = "The temperature and humidity levels are within the safe thresholds."
+                suggestions = "No immediate action required. Continue monitoring weather conditions."
 
-            # Include risk status in the response
+            # Add risk details and suggestions to the response
             climate_data['risk_status'] = risk_status
+            climate_data['risk_details'] = risk_details
+            climate_data['suggestions'] = suggestions
 
             return JsonResponse({'status': 'success', 'data': climate_data})
         else:
-            # Handle errors from the OpenWeatherMap API
+            # Handle errors from the API
             return JsonResponse({
                 'status': 'error',
-                'message': data.get('message', 'City not found!')
+                'message': data.get('message', 'City not found!'),
             })
 
     except requests.exceptions.RequestException as error:
-        # Handle network/request-related issues
         return JsonResponse({'status': 'error', 'message': f"API request failed: {str(error)}"})
+
+    def fetch_temperature_data(request):
+        """
+        Fetches real-time climate data for a given city and determines if it's at risk.
+        Also provides details on why it's at risk.
+        """
+        API_KEY = "47a6cc6d907164de60f86c3476008383"  # Replace with your secure API key
+        city = request.GET.get('city', '').strip()
+
+        if not city:
+            return JsonResponse({'status': 'error', 'message': 'Please provide a valid city name.'})
+
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+
+        try:
+            # Make the API request
+            response = requests.get(url)
+            data = response.json()
+
+            if response.status_code == 200:
+                # Extract relevant data
+                temperature = data['main']['temp']
+                humidity = data['main']['humidity']
+                pressure = data['main']['pressure']
+
+                climate_data = {
+                    'city': data['name'],
+                    'temperature': temperature,
+                    'humidity': humidity,
+                    'pressure': pressure,
+                }
+
+                # Risk assessment
+                if temperature > 35 or humidity > 80:
+                    risk_status = "At Risk"
+                    reasons = []
+
+                    if temperature > 35:
+                        reasons.append(f"The temperature is {temperature}°C, which exceeds the safe threshold of 35°C.")
+
+                    if humidity > 80:
+                        reasons.append(f"The humidity is {humidity}%, which is above the safe threshold of 80%.")
+
+                    risk_details = " ".join(reasons)
+                    suggestions = (
+                        "Consider staying hydrated, avoiding outdoor activities during peak heat hours, and staying updated with weather alerts."
+                    )
+                else:
+                    risk_status = "Not at Risk"
+                    risk_details = "The temperature and humidity levels are within the safe thresholds."
+                    suggestions = "No immediate action required. Continue monitoring weather conditions."
+
+                # Add risk details and suggestions to the response
+                climate_data['risk_status'] = risk_status
+                climate_data['risk_details'] = risk_details
+                climate_data['suggestions'] = suggestions
+
+                return JsonResponse({'status': 'success', 'data': climate_data})
+            else:
+                # Handle errors from the API
+                return JsonResponse({
+                    'status': 'error',
+                    'message': data.get('message', 'City not found!'),
+                })
+
+        except requests.exceptions.RequestException as error:
+            return JsonResponse({'status': 'error', 'message': f"API request failed: {str(error)}"})
 
 from .models import EducationalResource
 
@@ -201,6 +282,7 @@ def climate_map_details(request):
 
     details = mock_details.get(metric, {})
     return JsonResponse(details)
+
 # Story Generator Page
 def story_generator_page(request):
     """
