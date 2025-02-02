@@ -36,6 +36,56 @@ def climate_page(request):
 def carbon_calculator(request):
     return render(request, 'carbon_calculator.html')
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+
+@csrf_exempt
+def calculate_carbon(request):
+    if request.method == "POST":
+        try:
+            # Parse the JSON body from the request
+            body = json.loads(request.body)
+            activities = body.get("activities", {})
+
+            # Perform calculations (dummy logic for now; replace with accurate logic)
+            driving_emissions = activities.get("driving", 0) * 0.21
+            meat_emissions = activities.get("meat_consumption", 0) * 1.5
+            electricity_emissions = activities.get("electricity", 0) * 0.92
+            recycling_emissions = activities.get("recycling", 0) * -0.05
+            public_transport_emissions = activities.get("public_transport", 0) * 0.1
+
+            total_emissions = (
+                    driving_emissions +
+                    meat_emissions +
+                    electricity_emissions +
+                    recycling_emissions +
+                    public_transport_emissions
+            )
+
+            breakdown = [
+                {"activity": "Driving", "value": activities.get("driving", 0), "emissions": driving_emissions},
+                {"activity": "Meat Consumption", "value": activities.get("meat_consumption", 0),
+                 "emissions": meat_emissions},
+                {"activity": "Electricity", "value": activities.get("electricity", 0),
+                 "emissions": electricity_emissions},
+                {"activity": "Recycling", "value": activities.get("recycling", 0), "emissions": recycling_emissions},
+                {"activity": "Public Transport", "value": activities.get("public_transport", 0),
+                 "emissions": public_transport_emissions},
+            ]
+
+            # Return the results as JSON
+            return JsonResponse({
+                "total_emissions": round(total_emissions, 2),
+                "breakdown": breakdown,
+            })
+
+        except (json.JSONDecodeError, KeyError) as e:
+            return JsonResponse({"error": "Invalid input data."}, status=400)
+
+    return JsonResponse({"error": "Invalid request method."}, status=405)
+
 
 def fetch_temperature_data(request):
     """

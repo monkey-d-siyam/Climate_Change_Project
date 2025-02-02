@@ -8,6 +8,7 @@ urlpatterns = [
     path('climate/', views.climate_page, name='climate'),
     path('api/fetch-temperature-data/', views.fetch_temperature_data, name='fetch_temperature_data'),
     path('carbon-calculator/', views.carbon_calculator, name='carbon_calculator'),
+    path('calculate-carbon/', views.calculate_carbon, name='calculate_carbon'),
     path('educational-resources/', views.educational_resources, name='educational_resources'),
     path('climate-action-tracker/', views.climate_action_tracker, name='climate_action_tracker.html'),
     path('api/climate-map-heatmap', views.climate_map_heatmap, name='climate_map_heatmap'),
