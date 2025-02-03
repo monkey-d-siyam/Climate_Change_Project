@@ -1,9 +1,4 @@
-import json
-import os
 import logging
-import time
-from django.views.decorators.csrf import csrf_exempt
-from openai import OpenAI  # Ensure this is installed: pip install openai
 from dotenv import load_dotenv
 
 # Configure logging for debugging
@@ -342,46 +337,71 @@ def story_generator_page(request):
 
 
 # Story Generator Logic
+import os
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import logging
+from groq import Groq
+
+logger = logging.getLogger(__name__)
+
 @csrf_exempt
 def generate_story(request):
     if request.method == "POST":
         try:
+            # Parse user input from JSON body
             body = json.loads(request.body)
             user_actions = body.get("user_actions", "").strip()
-            if not user_actions:
-                return JsonResponse({"error": "No user actions provided"}, status=400)
 
-            api_key = os.getenv("GITHUB_TOKEN")  # Replace with your GPT API key in .env
-            if not api_key:
-                logger.error("API Key is missing.")
-                return JsonResponse({"error": "Internal Server Error: API Key missing"}, status=500)
+            # Validate input
+            if not user_actions or len(user_actions) < 5:
+                return JsonResponse(
+                    {"error": "Please describe your actions in more detail."},
+                    status=400
+                )
 
-            client = OpenAI(api_key=api_key)
-            max_retries = 3
-            for attempt in range(max_retries):
-                try:
-                    response = client.chat_completions.create(
-                        model="gpt-4o",
-                        messages=[
-                            {"role": "system", "content": "You are an AI that generates climate impact stories."},
-                            {"role": "user", "content": f"Write an inspiring story for: {user_actions}"}
-                        ],
-                        temperature=1.0,
-                        max_tokens=4096,
-                        top_p=1,
-                    )
-                    story = response.choices[0].message.content
-                    return JsonResponse({"story": story})
-                except Exception as e:
-                    if "429" in str(e) and attempt < max_retries - 1:
-                        logger.warning(f"Rate limit reached. Retrying {attempt + 1}/{max_retries}.")
-                        time.sleep(2 ** attempt)
-                    else:
-                        logger.error("Error while generating story.")
-                        return JsonResponse({"error": "Failed to generate story. Try again."}, status=500)
+            # Fetch Groq API key from environment variable
+            groq_api_key = os.getenv("GROQ_API_KEY")
+            if not groq_api_key:
+                logger.error("Groq API key is missing.")
+                return JsonResponse(
+                    {"error": "Internal Server Error: API Key missing."},
+                    status=500
+                )
+
+            # Initialize Groq client
+            client = Groq(api_key=groq_api_key)
+
+            # Generate story using Groq API
+            completion = client.chat.completions.create(
+                model="llama3-70b-8192",  # Replace with the correct model name
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant that generates inspiring stories about how climate actions shape the future."
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Write an inspiring story about how these actions contribute to a sustainable future: {user_actions}"
+                    }
+                ],
+                temperature=1.0,
+                max_tokens=1024,
+                top_p=1,
+                stream=False,  # Set to False for a single response
+                stop=None,
+            )
+
+            # Extract the generated story
+            story = completion.choices[0].message.content
+
+            # Return the story as JSON
+            return JsonResponse({"story": story})
 
         except Exception as e:
-            logger.exception("Unexpected error in generate_story.")
-            return JsonResponse({"error": str(e)}, status=500)
+            logger.exception("Unexpected error occurred.")
+            return JsonResponse({"error": "An unexpected error occurred. Please try again later."}, status=500)
 
+    # Handle invalid HTTP methods
     return JsonResponse({"error": "Invalid request method"}, status=400)

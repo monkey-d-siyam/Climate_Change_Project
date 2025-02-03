@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Climate Explorer{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header Section -->
-    <header>
+    <header class="header">
         <div class="logo">
             <h1>Climate Explorer</h1>
         </div>
@@ -22,13 +23,13 @@
     </header>
 
     <!-- Main Content Area -->
-    <main>
+    <main class="main-content">
         {% block content %}
         {% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <p>&copy; 2025 Climate Explorer. All rights reserved.</p>
     </footer>
 </body>

@@ -1,5 +1,4 @@
 async function generateClimateStory(userActions) {
-    // Fetch the temperature and provide user feedback
     try {
         const response = await fetch("/generate-story/", {
             method: "POST",
@@ -23,7 +22,7 @@ async function generateClimateStory(userActions) {
     }
 }
 
-// Attach the button event listener
+// Attach the button's event listener
 document.getElementById("generate-story-btn").addEventListener("click", async () => {
     const button = document.getElementById("generate-story-btn");
     const userActions = document.getElementById("climate-actions").value.trim();
@@ -34,25 +33,38 @@ document.getElementById("generate-story-btn").addEventListener("click", async ()
     }
 
     try {
-        // Disable the button until request is complete
+        // Disable button to prevent duplicate requests
         button.disabled = true;
         button.textContent = "Generating...";
 
-        // Show loading feedback
+        // Hide the story container initially and provide feedback
         document.getElementById("story-output").style.display = "none";
         document.getElementById("generated-story").textContent = "Generating your story...";
 
-        // Generate the story
+        // Request the generated story
         const story = await generateClimateStory(userActions);
 
-        // Display the result
+        // If the story is successfully generated, display it
         document.getElementById("generated-story").textContent = story;
         document.getElementById("story-output").style.display = "block";
     } catch (error) {
-        alert(`Error: ${error.message}`);
+        // Show error to the user in a friendly way
+        document.getElementById("story-output").style.display = "block";
+        document.getElementById("generated-story").textContent = `Error while generating story: ${error.message}`;
     } finally {
-        // Re-enable button and reset text
+        // Re-enable the button and reset its text
         button.disabled = false;
         button.textContent = "Generate Story";
     }
+});
+
+// Share story on social media
+document.getElementById("share-story-btn").addEventListener("click", () => {
+    const story = document.getElementById("generated-story").textContent;
+    if (!story.trim()) {
+        alert("No story generated to share!");
+        return;
+    }
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(story)}`;
+    window.open(twitterUrl, "_blank");
 });

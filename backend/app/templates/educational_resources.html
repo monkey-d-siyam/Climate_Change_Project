@@ -7,8 +7,8 @@
     <p>Explore well-researched articles, infographics, and videos about climate change.</p>
 
     <!-- Search and Filter Section -->
-    <div style="margin-bottom: 20px;">
-        <form method="get" action="{% url 'educational_resources' %}" style="display: flex; justify-content: center; gap: 10px;">
+    <div id="search-container" style="margin-bottom: 20px;">
+        <form id="search-form" method="get" action="{% url 'educational_resources' %}" style="display: flex; justify-content: center; gap: 10px;">
             <!-- Search Input -->
             <input type="text" name="q" value="{{ query }}" placeholder="Search resources..."
                 style="padding: 10px; width: 300px; border-radius: 5px; border: 1px solid #ccc;">
@@ -29,8 +29,9 @@
         </form>
     </div>
 
-    <!-- Resources List -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px;">
+    <!-- Search Results -->
+    <div id="search-results"
+         style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px;">
         {% for resource in resources %}
         <div
             style="background-color: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); color: white;">
@@ -51,16 +52,37 @@
         {% endfor %}
     </div>
 </section>
-   <script>
-       const form = document.querySelector("form");
-       form.addEventListener("submit", (e) => {
-           e.preventDefault();
-           const query = new URLSearchParams(new FormData(form)).toString();
-           fetch(`/educational-resources/?${query}`)
-               .then((response) => response.text())
-               .then((html) => {
-                   document.querySelector("section").innerHTML = html;
-               });
-       });
-   </script>
+
+<!-- Script for Dynamic Search -->
+<script>
+    const form = document.querySelector("#search-form");
+    const resultsContainer = document.querySelector("#search-results");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Serialize form data into a query string
+        const query = new URLSearchParams(new FormData(form)).toString();
+
+        // Clear the existing search results before appending new content
+        resultsContainer.innerHTML = "";
+
+        // Fetch new search results from the server
+        fetch(`/educational-resources/?${query}`)
+            .then((response) => response.text())
+            .then((html) => {
+                // Parse the response HTML and extract only the inner content
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+                const newResults = doc.querySelector("#search-results").innerHTML;
+
+                // Update the search results container with new content
+                resultsContainer.innerHTML = newResults;
+            })
+            .catch((err) => {
+                console.error("Error fetching search results:", err);
+                resultsContainer.innerHTML = "<p style='color: red;'>Failed to load search results. Please try again.</p>";
+            });
+    });
+</script>
 {% endblock %}

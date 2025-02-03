@@ -1,50 +1,61 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carbon Calculator</title>
+    <title>Carbon Footprint Calculator</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <header>
-        <h1>Carbon Footprint Calculator</h1>
-    </header>
+    <div class="container">
+        <header>
+            <h1>🌍 Carbon Footprint Calculator</h1>
+            <p>Track your CO<sub>2</sub> emissions and find ways to reduce your impact!</p>
+        </header>
 
-    <section id="carbon-calculator">
-        <h2>Enter Your Daily Activities</h2>
-        <form id="carbon-form">
-            <label>
-                Driving (km):
-                <input type="number" id="driving" placeholder="e.g., 10">
-            </label><br>
-            <label>
-                Meat Consumption (meals/day):
-                <input type="number" id="meat-consumption" placeholder="e.g., 2">
-            </label><br>
-            <label>
-                Electricity Usage (kWh/day):
-                <input type="number" id="electricity" placeholder="e.g., 15">
-            </label><br>
-            <label>
-                Recycled Items (number/day):
-                <input type="number" id="recycling" placeholder="e.g., 3">
-            </label><br>
-            <label>
-                Public Transport (km/day):
-                <input type="number" id="public-transport" placeholder="e.g., 20">
-            </label><br>
+        <main>
+            <!-- Input Form -->
+            <section class="form-section">
+                <h2>Fill out your weekly activities</h2>
+                <form id="carbon-form">
+                    <label for="driving">🚗 Driving (km):</label>
+                    <input type="number" id="driving" placeholder="e.g., 50" min="0">
 
-            <button type="button" id="calculate-carbon-btn">Calculate Carbon Footprint</button>
-        </form>
+                    <label for="electricity">💡 Electricity Usage (kWh):</label>
+                    <input type="number" id="electricity" placeholder="e.g., 100" min="0">
 
-        <div id="carbon-output" style="display: none; margin-top: 20px;">
-            <!-- Carbon results will be displayed here -->
-        </div>
-    </section>
+                    <label for="meat-consumption">🍖 Meat Consumption (meals):</label>
+                    <input type="number" id="meat-consumption" placeholder="e.g., 5" min="0">
 
-    <!-- Include JavaScript -->
-    <script src="{% static 'js/carbon_calculator.js' %}"></script>
+                    <label for="recycling">♻️ Number of Items Recycled:</label>
+                    <input type="number" id="recycling" placeholder="e.g., 10" min="0">
+
+                    <label for="public-transport">🚌 Public Transport (km):</label>
+                    <input type="number" id="public-transport" placeholder="e.g., 30" min="0">
+
+                    <button type="submit" id="calculate-carbon-btn">Calculate Carbon Footprint</button>
+                </form>
+            </section>
+
+            <!-- Result Section -->
+            <section class="result-section" id="carbon-output" style="display: none;">
+                <h2>Your Results</h2>
+                <div id="results-container">
+                    <!-- Total emissions -->
+                    <p id="total-emissions"></p>
+                    <!-- Feedback -->
+                    <div id="feedback" class="feedback-box"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Every step counts. Let’s reduce our carbon footprint! 🌱</p>
+        </footer>
+
+        <!-- Link the JavaScript -->
+        <script src="{% static 'js/carbon_calculator.js' %}"></script>
+    </div>
 </body>
 </html>
