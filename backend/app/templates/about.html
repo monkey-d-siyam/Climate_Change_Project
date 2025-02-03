@@ -3,8 +3,49 @@
 {% block title %}About{% endblock %}
 
 {% block content %}
-<section class="content">
-    <h2>About Climate Explorer</h2>
-    <p>Climate Explorer is a project that provides accessible tools to visualize climate change trends, inspired by the amazing work of NASA in Earth science data.</p>
+<section class="about">
+    <!-- Hero Section -->
+    <div class="about-hero" style="background-color: #0a192f; padding: 40px; text-align: center;">
+        <h1 style="color: #64ffda; font-size: 36px; font-weight: bold; margin-bottom: 10px;">About Climate Explorer</h1>
+        <p style="color: #ffffff; font-size: 18px; font-weight: 400;">Empowering insights into climate change with visuals, data, and tools.</p>
+    </div>
+
+    <!-- Highlight Section -->
+    <div class="about-highlights" style="padding: 40px; background-color: #112240;">
+        <h2 style="color: #64ffda; font-size: 28px; font-weight: bold; margin-bottom: 20px;">What is Climate Explorer?</h2>
+        <p style="color: #d9d9d9; font-size: 16px; line-height: 1.8; margin-bottom: 20px;">
+            Climate Explorer is a cutting-edge platform designed to help individuals, organizations, and governments better understand the impacts of climate change through interactive maps, insightful visualizations, and data-driven storytelling. Inspired by global efforts like NASA's Earth Science program, our mission is to make climate data accessible, engaging, and actionable.
+        </p>
+    </div>
+
+    <!-- Features Section -->
+    <div class="about-features" style="background-color: #1c2541; padding: 40px 20px; text-align: center;">
+        <h2 style="color: #64ffda; font-size: 28px; font-weight: bold; margin-bottom: 30px;">Our Features at a Glance</h2>
+        <div class="feature-grid" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+            <div class="feature-card" style="background-color: #112240; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); width: 300px;">
+                <h3 style="color: #64ffda; font-size: 20px; margin-bottom: 10px;">Interactive Climate Maps</h3>
+                <p style="color: #d9d9d9; font-size: 14px;">Explore dynamic heatmaps and overlays showing temperature trends, CO₂ emissions, and more across the globe.</p>
+            </div>
+            <div class="feature-card" style="background-color: #112240; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); width: 300px;">
+                <h3 style="color: #64ffda; font-size: 20px; margin-bottom: 10px;">Carbon Footprint Calculator</h3>
+                <p style="color: #d9d9d9; font-size: 14px;">Understand how your daily activities impact the environment with our intuitive calculator tool.</p>
+            </div>
+            <div class="feature-card" style="background-color: #112240; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); width: 300px;">
+                <h3 style="color: #64ffda; font-size: 20px; margin-bottom: 10px;">Educational Resources</h3>
+                <p style="color: #d9d9d9; font-size: 14px;">Access curated resources on the causes, effects, and solutions to climate change.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call-to-Action Section -->
+    <div class="about-cta" style="padding: 40px; background-color: #112240; text-align: center;">
+        <h2 style="color: #64ffda; font-size: 28px; font-weight: bold; margin-bottom: 20px;">Our Mission</h2>
+        <p style="color: #d9d9d9; font-size: 16px; line-height: 1.8; margin-bottom: 30px;">
+            At Climate Explorer, we aim to empower individuals and organizations to make informed decisions in combating
+            climate change. By transforming complex climate data into meaningful stories, we believe in inspiring
+            a collective effort for a sustainable future.
+        </p>
+        <a href="/climate-action-tracker/" style="background-color: #64ffda; color: #0a192f; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 16px; font-weight: bold;">Track Climate Actions</a>
+    </div>
 </section>
 {% endblock %}
