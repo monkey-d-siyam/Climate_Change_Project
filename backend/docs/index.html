@@ -1,9 +1,25 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block title %}Home{% endblock %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Explorer - Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Header Section -->
+<header class="header">
+    <div class="logo">
+        <h1>Climate Explorer</h1>
+    </div>
+    <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="climate-data.html">Climate Data</a>
+        <a href="educational-resources.html">Educational Resources</a>
+        <a href="about.html">About</a>
+    </nav>
+</header>
 
 <!-- Hero Section -->
 <section class="hero">
@@ -19,18 +35,23 @@
     <div class="cta-card">
         <h2>Calculate Your Carbon Footprint</h2>
         <p>Discover how your lifestyle impacts the climate and find ways to reduce your emissions.</p>
-        <a href="/carbon-calculator/" class="cta-btn">Calculate Now</a>
+        <a href="carbon-calculator.html" class="cta-btn">Calculate Now</a>
     </div>
     <div class="cta-card">
         <h2>Track Climate Actions</h2>
         <p>See the progress being made by countries, organizations, and individuals in combating climate change.</p>
-        <a href="/climate-action-tracker/" class="cta-btn">View Tracker</a>
+        <a href="climate-action-tracker.html" class="cta-btn">View Tracker</a>
     </div>
     <div class="cta-card">
         <h2>Generate Your Climate Story</h2>
         <p>Create an inspiring story about your impact on the fight against climate change.</p>
-        <a href="/story-generator/" class="cta-btn">Generate Story</a>
+        <a href="story-generator.html" class="cta-btn">Generate Story</a>
     </div>
 </section>
 
-{% endblock %}
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2025 Climate Explorer. All rights reserved.</p>
+</footer>
+</body>
+</html>
