@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h2>Welcome to Climate Explorer</h2>
+        <p>Explore and visualize data on climate change, inspired by space exploration and NASA's expertise.</p>
+    </div>
+</section>
+
+<!-- Call-to-Action Section -->
+<section id="cta-sections">
+    <div class="cta-card">
+        <h2>Calculate Your Carbon Footprint</h2>
+        <p>Discover how your lifestyle impacts the climate and find ways to reduce your emissions.</p>
+        <a href="/carbon-calculator/" class="cta-btn">Calculate Now</a>
+    </div>
+    <div class="cta-card">
+        <h2>Track Climate Actions</h2>
+        <p>See the progress being made by countries, organizations, and individuals in combating climate change.</p>
+        <a href="/climate-action-tracker/" class="cta-btn">View Tracker</a>
+    </div>
+    <div class="cta-card">
+        <h2>Generate Your Climate Story</h2>
+        <p>Create an inspiring story about your impact on the fight against climate change.</p>
+        <a href="/story-generator/" class="cta-btn">Generate Story</a>
+    </div>
+</section>
+
+{% endblock %}
